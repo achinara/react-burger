@@ -1,0 +1,53 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
+
+.tabs {
+  display: flex;
+}
+
+.content {
+  display: flex;
+  flex-wrap: wrap;
+  flex: 1;
+  position: relative;
+}
+
+.inner {
+  display: flex;
+  flex-wrap: wrap;
+  overflow: auto;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.title {
+  width: 100%;
+}
+
+.ingredient {
+  width: 50%;
+  position: relative;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.price {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+/*noinspection ALL*/
+.amount {
+  composes: text text_type_digits-default from global;
+}
+
+.name {
+  margin: 0;
+}

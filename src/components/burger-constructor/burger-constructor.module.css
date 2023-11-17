@@ -1,0 +1,64 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
+
+.top {
+  display: flex;
+  flex-wrap: wrap;
+  flex: 1;
+  position: relative;
+}
+
+.list {
+  position: absolute;
+  right: 0;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.scroll {
+  overflow: auto;
+}
+
+.bottom {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.drag {
+  display: flex;
+  visibility: hidden;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.visible {
+  visibility: visible;
+  pointer-events: auto;
+  opacity: 1;
+}
+
+.total {
+  display: flex;
+  align-items: center;
+}
+
+.total svg {
+  width: 36px;
+  height: 36px;
+}
+
+/*noinspection ALL*/
+.amount {
+  composes: text text_type_digits-medium from global;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+}

@@ -1,0 +1,27 @@
+.root {
+  text-align: center;
+}
+
+.img {
+  display: flex;
+  justify-content: center;
+}
+
+.list {
+  width: 100%;
+  padding: 0;
+  display: flex;
+  list-style: none;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.item {
+  text-align: center;
+  color: var(--text-inactive-color);
+}
+
+/*noinspection ALL*/
+.amount {
+  composes: text text_type_digits-default from global;
+}
