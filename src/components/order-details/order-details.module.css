@@ -1,0 +1,23 @@
+.root {
+  text-align: center;
+}
+
+/*noinspection ALL*/
+.amount {
+  composes: text text_type_digits-large from global;
+}
+
+/*noinspection ALL*/
+.desc {
+  composes: text text_type_main-medium from global;
+}
+
+.img {
+  height: 120px;
+  background: url('./image/graphics.svg') 50% 50% no-repeat;
+}
+
+.note {
+  color: var(--text-inactive-color);
+  margin: 0;
+}

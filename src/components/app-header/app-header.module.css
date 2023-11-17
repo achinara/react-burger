@@ -1,0 +1,37 @@
+.content {
+  width: 100%;
+  max-width: 1280px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.menu {
+  display: flex;
+  list-style: none;
+  padding: 0;
+}
+
+.link {
+  display: flex;
+  height: 56px;
+  align-items: center;
+  border-radius: 40px;
+  color: var(--text-inactive-color);
+  text-decoration: none;
+}
+
+.active {
+  composes: link;
+}
+
+.active,
+.link:hover {
+  color: var(--text-primary-color);
+}
+
+.active svg,
+.link:hover svg {
+  fill: var(--text-primary-color);
+}
