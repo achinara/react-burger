@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
-import styles from './burger-ingredients.module.css';
+import styles from '../burger-ingredients.module.css';
 
 const Ingredient = ({item, onClick}) => (
   <div className={`${styles.ingredient} pl-4 pr-2 mb-8`} onClick={onClick}>

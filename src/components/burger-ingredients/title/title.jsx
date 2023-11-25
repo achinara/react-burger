@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import styles from './burger-ingredients.module.css';
+import styles from '../burger-ingredients.module.css';
 
 
 const Title = ({ name }) => (

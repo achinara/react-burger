@@ -1,18 +1,17 @@
-import PropTypes from 'prop-types';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
-import ConstructorItem from './constructor-item';
+import ConstructorItem from './constructor-item/constructor-item';
+import { ingredientsPropTypes } from '../../utils/prop-types/prop-types';
 import styles from './burger-constructor.module.css';
 
 function BurgerConstructor({ list: data }) {
   const [visibleOrderDetails, toggleOrderDetails] = useState(false);
-  const { firstItem, list } = useMemo(() => ({
-    firstItem: data[0], list: data.slice(1)
-  }), [data])
-
   const handleVisibleDetails = () => toggleOrderDetails(!visibleOrderDetails);
+
+  const firstItem = data[0];
+  const list = data.slice(1);
 
   return (
     <div className={`${styles.root} ml-5`}>
@@ -64,13 +63,5 @@ function BurgerConstructor({ list: data }) {
 export default BurgerConstructor;
 
 BurgerConstructor.propTypes = {
-  list: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-      price: PropTypes.number.isRequired,
-      image: PropTypes.string.isRequired,
-    }).isRequired
-  ).isRequired
+  list: ingredientsPropTypes,
 }
