@@ -15,7 +15,12 @@ function App() {
   useEffect(() => {
     setLoading(true);
     fetch(URL)
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error('Response was not "ok"');
+        }
+        return res.json();
+      })
       .then(({ data }) => setIngredients(data))
       .catch((err) => {
         console.log(err);

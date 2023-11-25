@@ -1,10 +1,10 @@
-import PropTypes from 'prop-types';
 import { useMemo, useState } from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
-import Ingredient from './ingredient';
-import Title from './title';
+import Ingredient from './ingredient/ingredient';
+import Title from './title/title';
+import { ingredientsPropTypes } from '../../utils/prop-types/prop-types';
 import styles from './burger-ingredients.module.css';
 
 const types = {
@@ -68,13 +68,5 @@ function BurgerIngredients({ ingredients }) {
 export default BurgerIngredients;
 
 BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      price: PropTypes.number.isRequired,
-      image: PropTypes.string.isRequired,
-    }).isRequired
-  ).isRequired
+  ingredients: ingredientsPropTypes,
 }

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import {  ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
-import styles from './burger-constructor.module.css';
+import styles from '../burger-constructor.module.css';
 
 function ConstructorItem({text, type, price, image, canDrag}) {
   return (
