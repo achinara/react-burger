@@ -1,40 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend'
 import AppHeader from '../app-header/app-header';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
+import { fetchIngredients } from '../../services/ingredients-slice';
+import Spinner from '../spinner/spinner';
 import styles from './app.module.css';
 
-const URL = 'https://norma.nomoreparties.space/api/ingredients';
-
 function App() {
-  const [ingredients, setIngredients] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
+  const { items: ingredients, loading, failed: error } = useSelector(store => store.ingredients);
+
   let emptyContent = null;
 
   useEffect(() => {
-    setLoading(true);
-    fetch(URL)
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error('Response was not "ok"');
-        }
-        return res.json();
-      })
-      .then(({ data }) => setIngredients(data))
-      .catch((err) => {
-        console.log(err);
-        setError(err.message);
-      })
-      .finally(() => setLoading(false))
-  }, []);
+    dispatch(fetchIngredients());
+  }, [dispatch]);
   
   if (!ingredients.length) {
     emptyContent = 'Data is not delivered yet';
   }
   
   if (loading) {
-    emptyContent = 'Loading...';
+    emptyContent = <Spinner size={45} />;
   }
 
   if (error) {
@@ -44,17 +34,21 @@ function App() {
   return (
     <main className={styles.main}>
       <AppHeader />
-      <div className={`${styles.content} pb-10`}>
-        <h1 className={`${styles.title} mt-10 mb-5`}>
-          {emptyContent || 'Соберите бургер'}
-        </h1>
-        {!emptyContent && ingredients.length > 0 && (
-          <section className={styles.builder}>
-            <BurgerIngredients ingredients={ingredients} />
-            <BurgerConstructor list={ingredients} />
-          </section>
-        )}
-      </div>
+      <DndProvider backend={HTML5Backend}>
+        <div className={`${styles.content} pb-10`}>
+          <h1 className={`${styles.title} mt-10 mb-5`}>
+            {emptyContent || 'Соберите бургер'}
+          </h1>
+          {!emptyContent && (
+            <section className={styles.builder}>
+              {ingredients.length > 0 && (
+                <BurgerIngredients ingredients={ingredients} />
+              )}
+              <BurgerConstructor />
+            </section>
+          )}
+        </div>
+      </DndProvider>
     </main>
   );
 }

@@ -4,7 +4,7 @@
   width: 50%;
 }
 
-.top {
+.content {
   display: flex;
   flex-wrap: wrap;
   flex: 1;
@@ -25,22 +25,9 @@
   overflow: auto;
 }
 
-.bottom {
+.footer {
   display: flex;
   justify-content: flex-end;
-}
-
-.drag {
-  display: flex;
-  visibility: hidden;
-  pointer-events: none;
-  opacity: 0;
-}
-
-.visible {
-  visibility: visible;
-  pointer-events: auto;
-  opacity: 1;
 }
 
 .total {
@@ -58,7 +45,21 @@
   composes: text text_type_digits-medium from global;
 }
 
-.item {
-  display: flex;
-  align-items: center;
+.group {
+  position: relative;
+}
+
+.group::after {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.drag::after {
+  border: 1px dashed rgb(0, 206, 206, 0.5);
 }
