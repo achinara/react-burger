@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import styles from './ingredient-details.module.css';
 
 const attrsTitle = {
@@ -10,8 +10,8 @@ const attrsTitle = {
 
 const attrs = Object.keys(attrsTitle);
 
-function IngredientDetails({ ingredient }) {
-  const { image, name, ...rest } = ingredient;
+function IngredientDetails() {
+  const { image, name, ...rest } = useSelector(store => store.currentIngredient);
   return (
     <div className={styles.root}>
       <div className={`${styles.img} mt-4 mb-4`}>
@@ -32,14 +32,3 @@ function IngredientDetails({ ingredient }) {
 }
 
 export default IngredientDetails;
-
-IngredientDetails.propTypes = {
-  ingredient: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
-    fat: PropTypes.number,
-    calories: PropTypes.number,
-    proteins: PropTypes.number,
-    carbohydrates: PropTypes.number,
-  }).isRequired
-}

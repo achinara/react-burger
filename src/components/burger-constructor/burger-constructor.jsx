@@ -1,59 +1,80 @@
-import { useState } from 'react';
+import { useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import ConstructorItem from './constructor-item/constructor-item';
-import { ingredientsPropTypes } from '../../utils/prop-types/prop-types';
+import { createOrder, removeOrder } from '../../services/order-slice';
+import { TYPE_BUN } from '../../utils/constants/consts';
+import Spinner from '../spinner/spinner';
+import ConstructorGroup from './constructor-group/constructor-group';
+import FullItem from './full-item/full-item';
+import EmptyItem from './empty-item/empty-item';
 import styles from './burger-constructor.module.css';
 
-function BurgerConstructor({ list: data }) {
-  const [visibleOrderDetails, toggleOrderDetails] = useState(false);
-  const handleVisibleDetails = () => toggleOrderDetails(!visibleOrderDetails);
+function BurgerConstructor() {
+  const dispatch = useDispatch();
+  const { loading, order } = useSelector((store) => store.order);
+  const ingredients = useSelector((store) => store.ingredients.items);
+  const { bun, ingredients: list } = useSelector((store) => store.constructorItems);
 
-  const firstItem = data[0];
-  const list = data.slice(1);
+  const totalPrice = useMemo(() => {
+    const picked = [...list, bun];
+    return ingredients
+      .filter(({_id}) => picked.find(item => item?._id === _id))
+      .reduce((acc, item) => acc + item.price * (item.count || 1) , 0);
+  }, [ingredients, bun, list]);
+  
+  const handleCloseOrder = () => dispatch(removeOrder());
+  
+  const handleCreateOrder = () => {
+    const requiredBun = bun ?? ingredients.find(i => i.type === TYPE_BUN);
+    const picked = [requiredBun, ...list, requiredBun].filter(_ =>_);
+    const ids = picked.map((item) => item._id);
+    dispatch(createOrder({
+      ingredients: ids,
+    }));
+  }
 
   return (
     <div className={`${styles.root} ml-5`}>
-      <div className={styles.top}>
+      <div className={styles.content}>
         <div className={styles.list}>
-          <ConstructorItem
-            type="top"
-            price={firstItem.price}
-            image={firstItem.image}
-            text={`${firstItem.name} (верх)`}
-          />
-          <div className={`${styles.scroll} custom-scroll`}>
-            {list.map((item) => (
-              <ConstructorItem
-                key={item._id}
-                text={item.name}
-                price={item.price}
-                image={item.image}
-                canDrag
-              />)
-            )}
+          <ConstructorGroup dragType="bun">
+            {bun?.dragId
+              ? <FullItem dragId={bun.dragId} type="top"  />
+              : <EmptyItem type="top" />
+            }
+          </ConstructorGroup>
+          <ConstructorGroup className={`${styles.scroll} custom-scroll`} dragType="default">
+            {list.length
+              ? list.map((item, index) => (
+                  <ConstructorItem key={item.dragId} dragId={item.dragId} index={index} />
+                ))
+              : <EmptyItem />}
+          </ConstructorGroup>
+          <ConstructorGroup dragType="bun">
+            {bun?.dragId
+              ? <FullItem dragId={bun.dragId} type="bottom"  />
+              : <EmptyItem type="bottom" />
+            }
+          </ConstructorGroup>
+        </div>
+      </div>
+      {totalPrice > 0 && (
+        <div className={`${styles.footer} mt-10 pl-4 pr-4`}>
+          <div className={`${styles.total} mr-10`}>
+            <span className={`${styles.amount} mr-2`}>{totalPrice}</span>
+            <CurrencyIcon type="primary" />
           </div>
-          <ConstructorItem
-            type="bottom"
-            price={firstItem.price}
-            image={firstItem.image}
-            text={`${firstItem.name} (низ)`}
-          />
+          <Button disabled={loading} htmlType="submit" type="primary" size="large" onClick={handleCreateOrder}>
+            {loading ? <Spinner /> : 'Оформить заказ'}
+          </Button>
         </div>
-      </div>
-      <div className={`${styles.bottom} mt-10 pl-4 pr-4`}>
-        <div className={`${styles.total} mr-10`}>
-          <span className={`${styles.amount} mr-2`}>630</span>
-          <CurrencyIcon type="primary" />
-        </div>
-        <Button htmlType="submit" type="primary" size="large" onClick={handleVisibleDetails}>
-          Оформить заказ
-        </Button>
-      </div>
-      {visibleOrderDetails && (
-        <Modal onClose={handleVisibleDetails}>
-          <OrderDetails />
+      )}
+      {order?.number && (
+        <Modal onClose={handleCloseOrder}>
+          <OrderDetails orderNumber={order?.number} />
         </Modal>
       )}
     </div>
@@ -61,7 +82,3 @@ function BurgerConstructor({ list: data }) {
 }
 
 export default BurgerConstructor;
-
-BurgerConstructor.propTypes = {
-  list: ingredientsPropTypes,
-}
