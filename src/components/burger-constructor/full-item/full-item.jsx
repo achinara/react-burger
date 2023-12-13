@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import {  ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { selectBurgerConstructor } from '../../../services/constructor-items-slice';
 import styles from './full-item.module.css';
 
 const texts = {
@@ -10,8 +11,7 @@ const texts = {
 };
 
 function FullItem({dragId, type, onRemove}) {
-  const bun = useSelector((store) => store.constructorItems.bun);
-  const items = useSelector((store) => store.constructorItems.ingredients);
+  const { bun, ingredients: items } = useSelector(selectBurgerConstructor);
 
   const item = useMemo(() => {
     const current = [...items, (bun || {})].filter((i) => i.dragId === dragId);

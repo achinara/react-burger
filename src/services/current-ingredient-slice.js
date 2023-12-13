@@ -13,6 +13,9 @@ export const currentIngredientSlice = createSlice({
   }
 });
 
+const selectCurrentIngredient = store => store.currentIngredient;
+
+export { selectCurrentIngredient };
 export const { setCurrentIngredient, removeCurrentIngredient } = currentIngredientSlice.actions;
 
 export default currentIngredientSlice.reducer;

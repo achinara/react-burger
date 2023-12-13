@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { URL_POST_ORDER } from '../utils/constants/urls';
+import { checkResponse } from '../utils/helpers/helpers';
 
 const initialState = {
   loading: false,
@@ -9,19 +10,20 @@ const initialState = {
 
 export const createOrder = createAsyncThunk(
   'order/create',
-  async (order) => {
-    const res = await fetch(URL_POST_ORDER, {
-      method: "POST",
-      body: JSON.stringify(order),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    if (!res?.ok) {
-      throw new Error(`Response was not "ok", status is ${res.status}`);
+  async (order, { rejectWithValue}) => {
+    try {
+      const res = await fetch(URL_POST_ORDER, {
+        method: "POST",
+        body: JSON.stringify(order),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await checkResponse(res);
+      return data.order;
+    } catch (err) {
+      return rejectWithValue(err?.message);
     }
-    const data = await res.json();
-    return data?.order;
   }
 );
 
@@ -47,15 +49,17 @@ export const orderSlice = createSlice({
         state.failed = false;
         state.order = action.payload;
       })
-      .addCase(createOrder.rejected, (state, action) => {
+      .addCase(createOrder.rejected, (state) => {
         state.loading = false;
         state.failed = true;
         state.order = null;
-        console.log(action?.error?.message || action.payload);
       })
   }
 });
 
+const selectOrder = store => store.order;
+
+export { selectOrder };
 export const { removeOrder } = orderSlice.actions;
 
 export default orderSlice.reducer;

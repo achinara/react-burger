@@ -30,12 +30,16 @@ export const constructorItemsSlice = createSlice({
       nextItems.splice(dropIndex, 0, prevElem);
       state.ingredients = nextItems;
     },
-    clearConstructor: () => {
+    clearBurger: () => {
       return {...initialState}
     }
   },
 });
 
-export const { addIngredient, removeIngredient, clearConstructor, reorder } = constructorItemsSlice.actions;
+const selectBurgerConstructor = store => store.constructorItems;
+const selectBurgerIngredients = store => store.constructorItems.ingredients;
+
+export { selectBurgerConstructor, selectBurgerIngredients };
+export const { addIngredient, removeIngredient, clearBurger, reorder } = constructorItemsSlice.actions;
 
 export default constructorItemsSlice.reducer;

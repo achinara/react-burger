@@ -4,7 +4,9 @@ import { Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-co
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import ConstructorItem from './constructor-item/constructor-item';
-import { createOrder, removeOrder } from '../../services/order-slice';
+import { createOrder, removeOrder, selectOrder } from '../../services/order-slice';
+import { clearBurger, selectBurgerConstructor } from '../../services/constructor-items-slice';
+import { clearIngredientsCount, selectIngredientItems } from '../../services/ingredients-slice';
 import { TYPE_BUN } from '../../utils/constants/consts';
 import Spinner from '../spinner/spinner';
 import ConstructorGroup from './constructor-group/constructor-group';
@@ -14,9 +16,9 @@ import styles from './burger-constructor.module.css';
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
-  const { loading, order } = useSelector((store) => store.order);
-  const ingredients = useSelector((store) => store.ingredients.items);
-  const { bun, ingredients: list } = useSelector((store) => store.constructorItems);
+  const { loading, order } = useSelector(selectOrder);
+  const ingredients = useSelector(selectIngredientItems);
+  const { bun, ingredients: list } = useSelector(selectBurgerConstructor);
 
   const totalPrice = useMemo(() => {
     const picked = [...list, bun];
@@ -25,7 +27,11 @@ function BurgerConstructor() {
       .reduce((acc, item) => acc + item.price * (item.count || 1) , 0);
   }, [ingredients, bun, list]);
   
-  const handleCloseOrder = () => dispatch(removeOrder());
+  const handleCloseOrder = () => {
+    dispatch(removeOrder());
+    dispatch(clearBurger());
+    dispatch(clearIngredientsCount());
+  }
   
   const handleCreateOrder = () => {
     const requiredBun = bun ?? ingredients.find(i => i.type === TYPE_BUN);

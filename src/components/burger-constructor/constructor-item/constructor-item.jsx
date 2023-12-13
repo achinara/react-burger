@@ -3,12 +3,12 @@ import { useMemo, useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
 import { decrementCount } from '../../../services/ingredients-slice';
-import {  removeIngredient, reorder } from '../../../services/constructor-items-slice';
+import {  removeIngredient, reorder, selectBurgerIngredients } from '../../../services/constructor-items-slice';
 import FullItem from '../full-item/full-item';
 
 function ConstructorItem({ dragId, index }) {
   const dispatch = useDispatch();
-  const items = useSelector((store) => store.constructorItems.ingredients);
+  const items = useSelector(selectBurgerIngredients);
   
   const current = useMemo(() => items.find((i) => i.dragId === dragId), [items, dragId]);
   const ref = useRef(null);
