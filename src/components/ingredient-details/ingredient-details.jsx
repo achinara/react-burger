@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux';
+import { selectCurrentIngredient } from '../../services/current-ingredient-slice';
 import styles from './ingredient-details.module.css';
 
 const attrsTitle = {
@@ -11,7 +12,7 @@ const attrsTitle = {
 const attrs = Object.keys(attrsTitle);
 
 function IngredientDetails() {
-  const { image, name, ...rest } = useSelector(store => store.currentIngredient);
+  const { image, name, ...rest } = useSelector(selectCurrentIngredient);
   return (
     <div className={styles.root}>
       <div className={`${styles.img} mt-4 mb-4`}>

@@ -5,13 +5,13 @@ import { HTML5Backend } from 'react-dnd-html5-backend'
 import AppHeader from '../app-header/app-header';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
-import { fetchIngredients } from '../../services/ingredients-slice';
+import { fetchIngredients, selectIngredients } from '../../services/ingredients-slice';
 import Spinner from '../spinner/spinner';
 import styles from './app.module.css';
 
 function App() {
   const dispatch = useDispatch();
-  const { items: ingredients, loading, failed: error } = useSelector(store => store.ingredients);
+  const { items: ingredients, loading, failed: error } = useSelector(selectIngredients);
 
   let emptyContent = null;
 

@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { URL_FETCH_INGREDIENTS } from '../utils/constants/urls';
 import { TYPE_BUN } from '../utils/constants/consts';
+import { checkResponse } from '../utils/helpers/helpers';
 
 const initialState = {
   loading: false,
@@ -10,13 +11,14 @@ const initialState = {
 
 export const fetchIngredients = createAsyncThunk(
   'ingredients/fetch',
-  async () => {
-    const res = await fetch(URL_FETCH_INGREDIENTS);
-    if (!res?.ok) {
-      throw new Error(`Response was not "ok", status is ${res.status}`);
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await fetch(URL_FETCH_INGREDIENTS);
+      const { data } = await checkResponse(res);
+      return data;
+    } catch (err) {
+      return rejectWithValue(err?.message);
     }
-    const { data } = await res.json();
-    return data;
   }
 );
 
@@ -43,6 +45,12 @@ const ingredientsSlice = createSlice({
         ? {...item, count: Math.max(item.count - 1, 0)}
         : item
       )
+    },
+    clearIngredientsCount: (state) => {
+      state.items = state.items.map((item) => item.count > 0
+        ? {...item, count: 0}
+        : item
+      )
     }
   },
   extraReducers: (builder) => {
@@ -56,14 +64,17 @@ const ingredientsSlice = createSlice({
         state.failed = false;
         state.items = action.payload.map((item) => ({...item, count: 0}));
       })
-      .addCase(fetchIngredients.rejected, (state, action) => {
+      .addCase(fetchIngredients.rejected, (state) => {
         state.loading = false;
         state.failed = true;
-        console.log(action?.error?.message || action.payload);
       })
   },
 });
 
-export const { incrementCount, decrementCount } = ingredientsSlice.actions;
+const selectIngredients = store => store.ingredients;
+const selectIngredientItems = store => store.ingredients.items;
+
+export { selectIngredients, selectIngredientItems };
+export const { incrementCount, decrementCount, clearIngredientsCount } = ingredientsSlice.actions;
 
 export default ingredientsSlice.reducer;

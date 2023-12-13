@@ -6,7 +6,7 @@ import Modal from '../modal/modal';
 import Ingredient from './ingredient/ingredient';
 import Title from './title/title';
 import { ingredientsPropTypes } from '../../utils/prop-types/prop-types';
-import { removeCurrentIngredient } from '../../services/current-ingredient-slice';
+import { removeCurrentIngredient, selectCurrentIngredient } from '../../services/current-ingredient-slice';
 import styles from './burger-ingredients.module.css';
 
 const types = {
@@ -17,14 +17,14 @@ const types = {
 
 const tabs = Object.keys(types);
 
-function setScrollPoints() {
-  const container = document.querySelector('[data-scroll]');
-  const containerRect = container?.getBoundingClientRect();
+function setScrollPoints({container, headers}) {
+  if (!(container && headers.length)) return null;
+  const containerRect = container.getBoundingClientRect();
   const containerScrollBottom = containerRect.top + container.scrollHeight;
   
   return tabs.reduce((acc, attr, index) => {
-    const current = document.querySelector(`[data-type=${attr}]`);
-    const next = document.querySelector(`[data-type=${tabs[index + 1]}]`);
+    const current = headers[index];
+    const next = headers[index + 1];
     const headerRect = current.getBoundingClientRect();
     const bottomLimit = next?.getBoundingClientRect().top || containerScrollBottom;
     const min = headerRect.top - containerRect.top;
@@ -35,12 +35,17 @@ function setScrollPoints() {
 
 function BurgerIngredients({ ingredients }) {
   const dispatch = useDispatch();
-  const currentIngredient = useSelector(store => store.currentIngredient);
+  const currentIngredient = useSelector(selectCurrentIngredient);
   const [currentTab, setCurrentTab] = useState(tabs[0]);
   const tabPoints = useRef(null);
+  const scrollRef = useRef(null);
+  const headingRefs = useRef([]);
   
   useEffect(() => {
-    tabPoints.current = setScrollPoints();
+    tabPoints.current = setScrollPoints({
+      container: scrollRef.current,
+      headers: headingRefs.current,
+    });
   }, []);
 
   const content = useMemo(() => {
@@ -53,7 +58,7 @@ function BurgerIngredients({ ingredients }) {
     sortedByType.forEach((item) => {
       const { _id, type } = item;
       if (type !== lastType) {
-        rows.push(<Title key={type} type={type} name={types[type]} />);
+        rows.push(<Title key={type} name={types[type]} ref={(el) => headingRefs.current.push(el)} />);
       }
       rows.push(<Ingredient key={_id} item={item} />);
       lastType = type;
@@ -94,7 +99,7 @@ function BurgerIngredients({ ingredients }) {
         </Tab>
       </div>
       <div className={styles.content}>
-        <div data-scroll className={`${styles.inner} custom-scroll`} onScroll={handleScroll}>
+        <div ref={scrollRef} className={`${styles.inner} custom-scroll`} onScroll={handleScroll}>
           {content}
         </div>
       </div>
