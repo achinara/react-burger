@@ -1,0 +1,10 @@
+.root {
+  display: inline-flex;
+  flex-direction: column;
+}
+
+.footer {
+  gap: 20px;
+  display: flex;
+  justify-content: flex-end;
+}

@@ -1,0 +1,12 @@
+.root {
+  display: flex;
+  align-items: center;
+  color: var(--colors-interface-error);
+}
+
+.close {
+  border: none;
+  outline: none;
+  background: none;
+  cursor: pointer;
+}

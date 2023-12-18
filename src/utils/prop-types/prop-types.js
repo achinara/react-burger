@@ -8,6 +8,6 @@ const ingredientsPropTypes = PropTypes.arrayOf(
     price: PropTypes.number.isRequired,
     image: PropTypes.string.isRequired,
   }).isRequired
-).isRequired;
+);
 
 export { ingredientsPropTypes };

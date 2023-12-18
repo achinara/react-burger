@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { URL_POST_ORDER } from '../utils/constants/urls';
-import { checkResponse } from '../utils/helpers/helpers';
+import { API_POST_ORDER } from '../utils/constants/api';
+import { fetchWithRefresh } from '../utils/helpers/helpers';
+import { ACCESS_TOKEN } from '../utils/constants/consts';
 
 const initialState = {
   loading: false,
@@ -12,14 +13,14 @@ export const createOrder = createAsyncThunk(
   'order/create',
   async (order, { rejectWithValue}) => {
     try {
-      const res = await fetch(URL_POST_ORDER, {
+      const data = await fetchWithRefresh(API_POST_ORDER, {
         method: "POST",
         body: JSON.stringify(order),
         headers: {
           "Content-Type": "application/json",
+          Authorization: localStorage.getItem(ACCESS_TOKEN),
         },
       });
-      const data = await checkResponse(res);
       return data.order;
     } catch (err) {
       return rejectWithValue(err?.message);

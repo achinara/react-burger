@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { URL_FETCH_INGREDIENTS } from '../utils/constants/urls';
+import { API_FETCH_INGREDIENTS } from '../utils/constants/api';
 import { TYPE_BUN } from '../utils/constants/consts';
 import { checkResponse } from '../utils/helpers/helpers';
 
@@ -13,7 +13,7 @@ export const fetchIngredients = createAsyncThunk(
   'ingredients/fetch',
   async (_, { rejectWithValue }) => {
     try {
-      const res = await fetch(URL_FETCH_INGREDIENTS);
+      const res = await fetch(API_FETCH_INGREDIENTS);
       const { data } = await checkResponse(res);
       return data;
     } catch (err) {
@@ -73,8 +73,9 @@ const ingredientsSlice = createSlice({
 
 const selectIngredients = store => store.ingredients;
 const selectIngredientItems = store => store.ingredients.items;
+const selectCurrentIngredient = (store, id) => store.ingredients.items.find((item) => item._id === id);
 
-export { selectIngredients, selectIngredientItems };
+export { selectIngredients, selectIngredientItems, selectCurrentIngredient };
 export const { incrementCount, decrementCount, clearIngredientsCount } = ingredientsSlice.actions;
 
 export default ingredientsSlice.reducer;
