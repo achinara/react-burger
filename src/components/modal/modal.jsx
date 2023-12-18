@@ -9,6 +9,7 @@ const domNode = document.getElementById('modal') || document.body;
 
 function Modal({ title, onClose, children }) {
   useEffect(() => {
+    if (!onClose) return;
     const close = (e) => {
       if (e.key === 'Escape') {
         onClose();
@@ -22,9 +23,11 @@ function Modal({ title, onClose, children }) {
     <div className={styles.root}>
       <div className={styles.inner}>
         {title && <h2 className={`${styles.title} mb-4`}>{title}</h2>}
-        <Button htmlType="button" type="secondary" extraClass={styles.close} onClick={onClose}>
-          <CloseIcon type="primary" />
-        </Button>
+        {onClose && (
+          <Button htmlType="button" type="secondary" extraClass={styles.close} onClick={onClose}>
+            <CloseIcon type="primary" />
+          </Button>
+        )}
         {children}
       </div>
       <ModalOverlay onClose={onClose} />
@@ -38,6 +41,6 @@ export default Modal;
 
 Modal.propTypes = {
   title: PropTypes.string,
-  onClose: PropTypes.func.isRequired,
+  onClose: PropTypes.func,
   children: PropTypes.node.isRequired,
 }

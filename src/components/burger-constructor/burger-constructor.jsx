@@ -12,13 +12,17 @@ import Spinner from '../spinner/spinner';
 import ConstructorGroup from './constructor-group/constructor-group';
 import FullItem from './full-item/full-item';
 import EmptyItem from './empty-item/empty-item';
+import { selectUser } from '../../services/user-slice';
+import { useNavigate } from 'react-router-dom';
 import styles from './burger-constructor.module.css';
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { loading, order } = useSelector(selectOrder);
   const ingredients = useSelector(selectIngredientItems);
   const { bun, ingredients: list } = useSelector(selectBurgerConstructor);
+  const user = useSelector(selectUser);
 
   const totalPrice = useMemo(() => {
     const picked = [...list, bun];
@@ -34,6 +38,10 @@ function BurgerConstructor() {
   }
   
   const handleCreateOrder = () => {
+    if (!user) {
+      navigate('/login');
+      return;
+    }
     const requiredBun = bun ?? ingredients.find(i => i.type === TYPE_BUN);
     const picked = [requiredBun, ...list, requiredBun].filter(_ =>_);
     const ids = picked.map((item) => item._id);
@@ -74,9 +82,17 @@ function BurgerConstructor() {
             <CurrencyIcon type="primary" />
           </div>
           <Button disabled={loading} htmlType="submit" type="primary" size="large" onClick={handleCreateOrder}>
-            {loading ? <Spinner /> : 'Оформить заказ'}
+            Оформить заказ
           </Button>
         </div>
+      )}
+      {loading && (
+        <Modal>
+          <div className={styles.modal}>
+            <h2 className={'mt-0 mb-20'}>Заказ обрабатывается</h2>
+            <Spinner size={60} />
+          </div>
+        </Modal>
       )}
       {order?.number && (
         <Modal onClose={handleCloseOrder}>

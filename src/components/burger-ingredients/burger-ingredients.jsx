@@ -1,12 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
-import IngredientDetails from '../ingredient-details/ingredient-details';
-import Modal from '../modal/modal';
 import Ingredient from './ingredient/ingredient';
 import Title from './title/title';
 import { ingredientsPropTypes } from '../../utils/prop-types/prop-types';
-import { removeCurrentIngredient, selectCurrentIngredient } from '../../services/current-ingredient-slice';
 import styles from './burger-ingredients.module.css';
 
 const types = {
@@ -34,8 +30,6 @@ function setScrollPoints({container, headers}) {
 }
 
 function BurgerIngredients({ ingredients }) {
-  const dispatch = useDispatch();
-  const currentIngredient = useSelector(selectCurrentIngredient);
   const [currentTab, setCurrentTab] = useState(tabs[0]);
   const tabPoints = useRef(null);
   const scrollRef = useRef(null);
@@ -66,8 +60,6 @@ function BurgerIngredients({ ingredients }) {
 
     return rows;
   }, [ingredients]);
-  
-  const resetCurrentIngredient = () => dispatch(removeCurrentIngredient());
 
   const handleScroll = (e) => {
     if (!tabPoints.current) return;
@@ -103,11 +95,6 @@ function BurgerIngredients({ ingredients }) {
           {content}
         </div>
       </div>
-      {currentIngredient && (
-        <Modal title="Детали ингредиента" onClose={resetCurrentIngredient}>
-          <IngredientDetails />
-        </Modal>
-      )}
     </div>
   )
 }
@@ -115,5 +102,5 @@ function BurgerIngredients({ ingredients }) {
 export default BurgerIngredients;
 
 BurgerIngredients.propTypes = {
-  ingredients: ingredientsPropTypes,
+  ingredients: ingredientsPropTypes.isRequired,
 }

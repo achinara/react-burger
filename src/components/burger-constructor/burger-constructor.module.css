@@ -63,3 +63,8 @@
 .drag::after {
   border: 1px dashed rgb(0, 206, 206, 0.5);
 }
+
+.modal {
+  text-align: center;
+  padding: 20px 86px 80px;
+}

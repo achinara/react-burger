@@ -1,54 +1,53 @@
 import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend'
+import { useDispatch } from 'react-redux';
+import { Route, Routes, useLocation } from 'react-router-dom';
+import { OnlyAuth, OnlyUnAuth } from '../protected-route/protected-route';
+import { checkUserAuth } from '../../services/user-slice';
+import Login from '../../pages/login/login';
+import Register from '../../pages/register/register';
+import ResetPassword from '../../pages/reset-password/reset-password';
+import ForgotPassword from '../../pages/forgot-password/forgot-password';
+import Profile from '../../pages/profile/profile';
+import NotFound from '../../pages/not-found/not-found';
 import AppHeader from '../app-header/app-header';
-import BurgerConstructor from '../burger-constructor/burger-constructor';
-import BurgerIngredients from '../burger-ingredients/burger-ingredients';
-import { fetchIngredients, selectIngredients } from '../../services/ingredients-slice';
-import Spinner from '../spinner/spinner';
+import Home from '../../pages/home/home';
+import UserProfile from '../../pages/profile/user-profile/user-profile';
+import UserOrders from '../../pages/profile/user-orders/user-orders';
+import IngredientView from '../../pages/home/ingredient-view/ingredient-view';
+import IngredientModal from '../../pages/home/ingredient-modal/ingredient-modal';
 import styles from './app.module.css';
 
 function App() {
   const dispatch = useDispatch();
-  const { items: ingredients, loading, failed: error } = useSelector(selectIngredients);
-
-  let emptyContent = null;
+  const location = useLocation();
 
   useEffect(() => {
-    dispatch(fetchIngredients());
+    dispatch(checkUserAuth());
   }, [dispatch]);
-  
-  if (!ingredients.length) {
-    emptyContent = 'Data is not delivered yet';
-  }
-  
-  if (loading) {
-    emptyContent = <Spinner size={45} />;
-  }
-
-  if (error) {
-    emptyContent = 'Something went wrong';
-  }
 
   return (
     <main className={styles.main}>
-      <AppHeader />
-      <DndProvider backend={HTML5Backend}>
-        <div className={`${styles.content} pb-10`}>
-          <h1 className={`${styles.title} mt-10 mb-5`}>
-            {emptyContent || 'Соберите бургер'}
-          </h1>
-          {!emptyContent && (
-            <section className={styles.builder}>
-              {ingredients.length > 0 && (
-                <BurgerIngredients ingredients={ingredients} />
-              )}
-              <BurgerConstructor />
-            </section>
-          )}
-        </div>
-      </DndProvider>
+      <AppHeader/>
+      <div className={`${styles.content} pb-10`}>
+        <Routes location={location.state?.backgroundLocation || location}>
+          <Route index element={<Home/>}/>
+          <Route path={'ingredient/:ingredientId'} element={<IngredientView/>}/>
+          <Route path={'login'} element={<OnlyUnAuth component={<Login/>}/>}/>
+          <Route path={'register'} element={<OnlyUnAuth component={<Register/>}/>}/>
+          <Route path={'reset-password'} element={<OnlyUnAuth component={<ResetPassword/>}/>}/>
+          <Route path={'forgot-password'} element={<OnlyUnAuth component={<ForgotPassword/>}/>}/>
+          <Route path={'profile'} element={<OnlyAuth component={<Profile/>}/>}>
+            <Route index element={<UserProfile/>}/>
+            <Route path={'orders'} element={<UserOrders/>}/>
+          </Route>
+          <Route path={'*'} element={<NotFound/>}/>
+        </Routes>
+      </div>
+      {location.state?.backgroundLocation && (
+        <Routes>
+          <Route path={'ingredient/:ingredientId'} element={<IngredientModal/>}/>
+        </Routes>
+      )}
     </main>
   );
 }

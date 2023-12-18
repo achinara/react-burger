@@ -1,0 +1,40 @@
+.root {
+  display: flex;
+  margin: 120px 0 30px;
+}
+
+.left {
+  width: 300px;
+}
+
+.menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1;
+}
+
+.link:hover,
+.link.active {
+  color: white;
+  text-decoration: none;
+}
+
+/*noinspection ALL*/
+.link {
+  display: block;
+  composes: text text_type_main-medium from global;
+  text-decoration: none;
+  color: var(--text-inactive-color);
+  padding: 20px 0;
+  margin: 0;
+  background: none;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}

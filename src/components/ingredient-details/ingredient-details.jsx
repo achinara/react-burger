@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux';
-import { selectCurrentIngredient } from '../../services/current-ingredient-slice';
+import PropTypes from 'prop-types';
+import { selectCurrentIngredient } from '../../services/ingredients-slice';
 import styles from './ingredient-details.module.css';
 
 const attrsTitle = {
@@ -11,8 +12,15 @@ const attrsTitle = {
 
 const attrs = Object.keys(attrsTitle);
 
-function IngredientDetails() {
-  const { image, name, ...rest } = useSelector(selectCurrentIngredient);
+function IngredientDetails({ id }) {
+  const ingredient = useSelector((store) => selectCurrentIngredient(store, id));
+  if (!ingredient) {
+    return (
+      <h2 style={{ textAlign: 'center' }}>There isn't any ingredient yet</h2>
+    )
+  }
+
+  const { image, name, ...rest } = ingredient;
   return (
     <div className={styles.root}>
       <div className={`${styles.img} mt-4 mb-4`}>
@@ -30,6 +38,10 @@ function IngredientDetails() {
       </ul>
     </div>
   )
+}
+
+IngredientDetails.propTypes = {
+  id: PropTypes.string.isRequired,
 }
 
 export default IngredientDetails;

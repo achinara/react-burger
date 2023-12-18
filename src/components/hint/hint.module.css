@@ -1,0 +1,13 @@
+.root {
+  text-align: center;
+}
+
+.link,
+.link:visited {
+  color: var(--colors-interface-accent);
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
