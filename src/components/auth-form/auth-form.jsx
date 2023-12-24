@@ -1,21 +1,17 @@
-import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useForm } from '../../hooks/useForm';
 
 function initialState(fields) {
   return fields.reduce((acc, field) => ({ ...acc, [field.name]: '' }), {});
 }
 
 function AuthForm({ fields, buttonTitle, onSubmit }) {
-  const [state, setState] = useState(() => initialState(fields));
+  const { values, handleChange } = useForm(initialState(fields));
   
-  const handleChange = (e) => {
-    setState(({ ...state, [e.target.name]: e.target.value }));
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(state);
+    onSubmit(values);
   };
   
   return (
@@ -29,7 +25,7 @@ function AuthForm({ fields, buttonTitle, onSubmit }) {
             required
             placeholder={placeholder}
             name={name}
-            value={state[name]}
+            value={values[name]}
             extraClass="mb-6"
             onChange={handleChange}
           />

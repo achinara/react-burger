@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
+import { useSelector } from 'react-redux';
+import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
+import { selectIngredientItems } from '../../services/ingredients-slice';
 import Ingredient from './ingredient/ingredient';
 import Title from './title/title';
-import { ingredientsPropTypes } from '../../utils/prop-types/prop-types';
 import styles from './burger-ingredients.module.css';
 
 const types = {
@@ -29,7 +30,8 @@ function setScrollPoints({container, headers}) {
   }, {});
 }
 
-function BurgerIngredients({ ingredients }) {
+function BurgerIngredients() {
+  const ingredients = useSelector(selectIngredientItems)
   const [currentTab, setCurrentTab] = useState(tabs[0]);
   const tabPoints = useRef(null);
   const scrollRef = useRef(null);
@@ -101,6 +103,3 @@ function BurgerIngredients({ ingredients }) {
 
 export default BurgerIngredients;
 
-BurgerIngredients.propTypes = {
-  ingredients: ingredientsPropTypes.isRequired,
-}

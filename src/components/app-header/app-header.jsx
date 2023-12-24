@@ -1,5 +1,5 @@
 import { BurgerIcon, ListIcon, Logo, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../services/user-slice';
 import styles from './app-header.module.css';
@@ -36,7 +36,9 @@ function AppHeader() {
             </li>
           </ul>
         </nav>
-        <Logo/>
+        <Link to='/'>
+          <Logo/>
+        </Link>
         <NavLink
           to="/profile"
           className={({ isActive }) => `${isActive ? styles.active : styles.link} pl-5 pr-5`}

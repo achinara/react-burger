@@ -16,15 +16,15 @@ function IngredientDetails({ id }) {
   const ingredient = useSelector((store) => selectCurrentIngredient(store, id));
   if (!ingredient) {
     return (
-      <h2 style={{ textAlign: 'center' }}>There isn't any ingredient yet</h2>
+      <h2 className={styles.title}>There isn't any ingredient yet</h2>
     )
   }
 
-  const { image, name, ...rest } = ingredient;
+  const { image_large, name, ...rest } = ingredient;
   return (
     <div className={styles.root}>
       <div className={`${styles.img} mt-4 mb-4`}>
-        <img src={image} alt={name} />
+        <img src={image_large} alt={name} />
       </div>
       <p className="mb-8">{name}</p>
       <ul className={styles.list}>

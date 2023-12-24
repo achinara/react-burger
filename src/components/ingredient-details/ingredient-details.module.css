@@ -25,3 +25,7 @@
 .amount {
   composes: text text_type_digits-default from global;
 }
+
+.title {
+  text-align: center;
+}
