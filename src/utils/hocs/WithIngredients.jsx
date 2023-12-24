@@ -1,16 +1,10 @@
-import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { fetchIngredients, selectIngredients } from '../../services/ingredients-slice';
+import { useSelector } from 'react-redux';
+import { selectIngredients } from '../../services/ingredients-slice';
 import Spinner from '../../components/spinner/spinner';
 
 const WithIngredients = (Component) => {
   function WrappedComponent () {
-    const dispatch = useDispatch();
     const { items: ingredients, loading, failed: error } = useSelector(selectIngredients);
-  
-    useEffect(() => {
-      dispatch(fetchIngredients());
-    }, [dispatch]);
   
     let emptyContent = null;
     if (!ingredients.length) {

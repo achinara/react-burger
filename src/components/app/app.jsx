@@ -15,6 +15,7 @@ import UserProfile from '../../pages/profile/user-profile/user-profile';
 import UserOrders from '../../pages/profile/user-orders/user-orders';
 import IngredientView from '../../pages/home/ingredient-view/ingredient-view';
 import IngredientModal from '../../pages/home/ingredient-modal/ingredient-modal';
+import { fetchIngredients } from '../../services/ingredients-slice';
 import styles from './app.module.css';
 
 function App() {
@@ -25,6 +26,10 @@ function App() {
     dispatch(checkUserAuth());
   }, [dispatch]);
 
+  useEffect(() => {
+    dispatch(fetchIngredients());
+  }, [dispatch]);
+  
   return (
     <main className={styles.main}>
       <AppHeader/>
