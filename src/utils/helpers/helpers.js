@@ -15,8 +15,12 @@ const setUserTokens = (accessToken, refreshToken) => {
   localStorage.setItem(REFRESH_TOKEN, refreshToken);
 }
 
+const request = (url, options) => {
+  return fetch(url, options).then(checkResponse)
+};
+
 const refreshToken = () => {
-  return fetch(API_REFRESH_TOKEN, {
+  return request(API_REFRESH_TOKEN, {
     method: "POST",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
@@ -24,7 +28,7 @@ const refreshToken = () => {
     body: JSON.stringify({
       token: localStorage.getItem(REFRESH_TOKEN),
     }),
-  }).then(checkResponse);
+  });
 };
 
 const fetchWithRefresh = async (url, options) => {
@@ -53,5 +57,6 @@ export {
   refreshToken,
   clearUserTokens,
   setUserTokens,
-  fetchWithRefresh
+  fetchWithRefresh,
+  request,
 }

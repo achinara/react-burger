@@ -9,7 +9,7 @@ import BurgerConstructor from '../../components/burger-constructor/burger-constr
 import WithIngredients from '../../utils/hocs/WithIngredients';
 import styles from './home.module.css';
 
-function Home({ emptyContent, ingredients }) {
+function Home({ emptyContent }) {
   return (
     <DndProvider backend={HTML5Backend}>
       <PageTitle>
@@ -17,9 +17,7 @@ function Home({ emptyContent, ingredients }) {
       </PageTitle>
       {!emptyContent && (
         <section className={styles.builder}>
-          {ingredients.length > 0 && (
-            <BurgerIngredients ingredients={ingredients}/>
-          )}
+          <BurgerIngredients />
           <BurgerConstructor/>
         </section>
       )}

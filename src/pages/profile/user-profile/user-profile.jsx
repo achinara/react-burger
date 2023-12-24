@@ -1,6 +1,7 @@
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { selectUser, updateUserData } from '../../../services/user-slice';
 import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useForm } from '../../../hooks/useForm';
 import { useCallback, useEffect, useState } from 'react';
 import AuthError from '../../../components/auth-error/auth-error';
 import styles from './user-profile.module.css';
@@ -14,34 +15,26 @@ const initialState = (state) => ({
 function UserProfile() {
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
-  const [state, setUser] = useState({ name: '', email:  '', password: '' });
+  const { values: state, setValues: setUser, handleChange } = useForm({ name: '', email:  '', password: '' });
 
   const [isChanged, setIsChanged] = useState(false);
 
   useEffect(() => {
     setUser(initialState(user));
-  }, [user])
+  }, [setUser, user])
 
   useEffect(() => {
     setIsChanged(!shallowEqual(initialState(user), initialState(state)));
   }, [user, state]);
 
-  const handleChange = ({ currentTarget: { name, value }}) => {
-    setUser({...state, [name]: value});
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    const changedData = Object.keys(state).reduce((acc, key) => {
-      if (!state[key] && !user?.[key]) return acc;
-      return { ...acc, [key]: state[key] };
-    }, {});
-    dispatch(updateUserData(changedData));
+    dispatch(updateUserData(state));
   }
 
   const handleCancel = useCallback(() => {
     setUser(initialState(user));
-  }, [user]);
+  }, [setUser, user]);
 
   return (
     <form className={styles.root} onSubmit={handleSubmit}>

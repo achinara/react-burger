@@ -8,10 +8,10 @@ import {
   API_USER_FETCH,
 } from '../utils/constants/api';
 import {
-  checkResponse,
   clearUserTokens,
   fetchWithRefresh,
   setUserTokens,
+  request,
 } from '../utils/helpers/helpers';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from '../utils/constants/consts';
 
@@ -50,69 +50,50 @@ export const checkUserAuth = createAsyncThunk(
 
 export const updateUserData = createAsyncThunk(
   'user/updateData',
-  async (userData, { rejectWithValue }) => {
-    try {
-      const options = getOptions({ method: 'PATCH', data: userData });
-      const data = await fetchWithRefresh(API_USER_FETCH, {
-        ...options,
-        headers: { ...options.headers, Authorization: localStorage.getItem(ACCESS_TOKEN) },
-      });
-      return data.user;
-    } catch (err) {
-      return rejectWithValue(err?.message);
-    }
+  async (userData) => {
+    const options = getOptions({ method: 'PATCH', data: userData });
+    const data = await fetchWithRefresh(API_USER_FETCH, {
+      ...options,
+      headers: { ...options.headers, Authorization: localStorage.getItem(ACCESS_TOKEN) },
+    });
+    return data.user;
   }
 )
 
 export const auth = createAsyncThunk(
   'user/auth',
-  async (userData, { rejectWithValue }) => {
-    try {
-      const options = getOptions({ data: userData });
-      const res = await fetch(API_REGISTER_USER, options);
-      const { accessToken, refreshToken, user } = await checkResponse(res);
-      setUserTokens(accessToken, refreshToken);
-      return user;
-    } catch (err) {
-      return rejectWithValue(err?.message);
-    }
+  async (userData) => {
+    const options = getOptions({ data: userData });
+    const { accessToken, refreshToken, user } = await request(API_REGISTER_USER, options);
+    setUserTokens(accessToken, refreshToken);
+    return user;
   },
 );
 
 export const login = createAsyncThunk(
   'user/login',
-  async (userData, { rejectWithValue }) => {
-    try {
-      const options = getOptions({ data: userData });
-      const res = await fetch(API_LOGIN, options);
-      const { accessToken, refreshToken, user } = await checkResponse(res);
-      setUserTokens(accessToken, refreshToken);
-      return user;
-    } catch (err) {
-      return rejectWithValue(err?.message);
-    }
+  async (userData) => {
+    const options = getOptions({ data: userData });
+    const { accessToken, refreshToken, user } = await request(API_LOGIN, options);
+    setUserTokens(accessToken, refreshToken);
+    return user;
   },
 );
 
 export const logout = createAsyncThunk(
   'user/logout',
-  async (_, { rejectWithValue }) => {
-    try {
-      const data = { token: localStorage.getItem(REFRESH_TOKEN) };
-      const options = getOptions({ data });
-      await fetch(API_LOGOUT, options);
-      clearUserTokens();
-    } catch (err) {
-      return rejectWithValue(err?.message);
-    }
+  async () => {
+    const data = { token: localStorage.getItem(REFRESH_TOKEN) };
+    const options = getOptions({ data });
+    await request(API_LOGOUT, options);
+    clearUserTokens();
   },
 );
 
 export const restorePassword = async (data) => {
   try {
     const options = getOptions({ data });
-    const res = await fetch(API_FORGOT_PASS, options);
-    return checkResponse(res);
+    return await request(API_FORGOT_PASS, options);
   } catch (err) {
     return Promise.reject(err);
   }
@@ -121,8 +102,7 @@ export const restorePassword = async (data) => {
 export const resetPassword = async (data) => {
   try {
     const options = getOptions({ data });
-    const res = await fetch(API_RESET_PASS, options);
-    return checkResponse(res);
+    return await request(API_RESET_PASS, options);
   } catch (err) {
     return Promise.reject(err);
   }
@@ -147,7 +127,7 @@ export const userSlice = createSlice({
         state.failed = null;
       })
       .addCase(updateUserData.rejected, (state, action) => {
-        state.failed = action.payload;
+        state.failed = action.error?.message;
       })
       .addCase(checkUserAuth.fulfilled, (state, action) => {
         state.user = action.payload;
@@ -170,14 +150,14 @@ export const userSlice = createSlice({
         state.failed = null;
       })
       .addCase(login.rejected, (state, action) => {
-        state.failed = action.payload;
+        state.failed = action.error?.message;
       })
       .addCase(logout.fulfilled, (state) => {
         state.user = null;
         state.failed = null;
       })
       .addCase(logout.rejected, (state, action) => {
-        state.failed = action.payload;
+        state.failed = action.error?.message;
       })
   },
 });

@@ -11,14 +11,10 @@ const initialState = {
 
 export const fetchIngredients = createAsyncThunk(
   'ingredients/fetch',
-  async (_, { rejectWithValue }) => {
-    try {
-      const res = await fetch(API_FETCH_INGREDIENTS);
-      const { data } = await checkResponse(res);
-      return data;
-    } catch (err) {
-      return rejectWithValue(err?.message);
-    }
+  async () => {
+    const res = await fetch(API_FETCH_INGREDIENTS);
+    const { data } = await checkResponse(res);
+    return data;
   }
 );
 

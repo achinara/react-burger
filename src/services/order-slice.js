@@ -11,20 +11,16 @@ const initialState = {
 
 export const createOrder = createAsyncThunk(
   'order/create',
-  async (order, { rejectWithValue}) => {
-    try {
-      const data = await fetchWithRefresh(API_POST_ORDER, {
-        method: "POST",
-        body: JSON.stringify(order),
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: localStorage.getItem(ACCESS_TOKEN),
-        },
-      });
-      return data.order;
-    } catch (err) {
-      return rejectWithValue(err?.message);
-    }
+  async (order) => {
+    const data = await fetchWithRefresh(API_POST_ORDER, {
+      method: "POST",
+      body: JSON.stringify(order),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem(ACCESS_TOKEN),
+      },
+    });
+    return data.order;
   }
 );
 
