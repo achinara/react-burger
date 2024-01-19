@@ -131,7 +131,7 @@ export const resetPassword = async (data: TPassResetBody) => {
 type State = {
   isAuthChecked: boolean;
   user: null | TUserData;
-  failed: null | undefined | string;
+  failed: string | null | undefined;
 };
 
 const initialState: State = {
