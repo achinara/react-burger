@@ -1,5 +1,5 @@
-import { useSelector } from 'react-redux';
-import { selectCurrentIngredient } from '../../services/ingredients-slice';
+import { useSelector } from '../../hooks';
+import { selectCurrentIngredient } from '../../services/slices/ingredients-slice';
 import styles from './ingredient-details.module.css';
 
 type TIngredientDetailsProps = {
@@ -36,7 +36,7 @@ function IngredientDetails({ id }: TIngredientDetailsProps) {
           return rest[key] && (
             <li className={styles.item} key={attr}>
               <p className="mb-2">{attrsTitle[key]}</p>
-              <span className={styles.amount}>{rest[attr]}</span>
+              <span className={styles.amount}>{rest[key]}</span>
             </li>
         )})}
       </ul>

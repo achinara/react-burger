@@ -1,0 +1,4 @@
+/*noinspection ALL*/
+.status {
+  composes: text text_type_main-default from global;
+}

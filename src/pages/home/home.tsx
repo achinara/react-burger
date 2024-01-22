@@ -19,7 +19,7 @@ function Home({ emptyContent }: THomeProps) {
         {emptyContent || 'Соберите бургер'}
       </PageTitle>
       {!emptyContent && (
-        <section className={styles.builder}>
+        <section className={`${styles.builder} pb-10`}>
           <BurgerIngredients />
           <BurgerConstructor/>
         </section>

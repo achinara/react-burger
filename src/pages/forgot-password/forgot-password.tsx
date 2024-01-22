@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import AuthForm from '../../components/auth-form/auth-form';
 import { TUserEmail } from '../../utils/types/user-types';
 import Hint from '../../components/hint/hint';
-import { restorePassword } from '../../services/user-slice';
+import { restorePassword } from '../../services/slices/user-slice';
 import AuthContainer from '../../components/auth-container/auth-container';
 import Alert from '../../components/alert/alert';
 

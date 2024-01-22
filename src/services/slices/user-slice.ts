@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { RootState } from '../store';
 import {
   API_FORGOT_PASS,
   API_LOGIN,
@@ -6,15 +7,15 @@ import {
   API_REGISTER_USER,
   API_RESET_PASS,
   API_USER_FETCH,
-} from '../utils/constants/api';
+} from '../../utils/constants/api';
 import {
   clearUserTokens,
   fetchWithRefresh,
   setUserTokens,
   request,
   getFetchError,
-} from '../utils/helpers/helpers';
-import { ACCESS_TOKEN, REFRESH_TOKEN } from '../utils/constants/consts';
+} from '../../utils/helpers/helpers';
+import { ACCESS_TOKEN, REFRESH_TOKEN } from '../../utils/constants/consts';
 
 import {
   TUserFetchData,
@@ -25,7 +26,7 @@ import {
   TUserData,
   TLoginBody,
   TUserRegisterBody,
-} from '../utils/types/user-types';
+} from '../../utils/types/user-types';
 
 type THeaderOptions<T> = {
   method?: string;
@@ -128,13 +129,13 @@ export const resetPassword = async (data: TPassResetBody) => {
   }
 }
 
-type State = {
+type UserState = {
   isAuthChecked: boolean;
   user: null | TUserData;
   failed: string | null | undefined;
 };
 
-const initialState: State = {
+const initialState: UserState = {
   isAuthChecked: false,
   user: null,
   failed: null,
@@ -190,12 +191,12 @@ export const userSlice = createSlice({
   },
 });
 
-// @ts-ignore
-const selectAuthChecked = store => store.user.isAuthChecked;
-// @ts-ignore
-const selectUser = store => store.user.user;
-// @ts-ignore
-const selectUserError = store => store.user.failed;
+type TUserActionCreators = typeof userSlice.actions;
+export type TUserActions = ReturnType<TUserActionCreators[keyof TUserActionCreators]>;
+
+const selectAuthChecked = (store: RootState) => store.user.isAuthChecked;
+const selectUser = (store: RootState) => store.user.user;
+const selectUserError = (store: RootState) => store.user.failed;
 
 export { selectAuthChecked, selectUser, selectUserError };
 export const { resetUserError } = userSlice.actions;

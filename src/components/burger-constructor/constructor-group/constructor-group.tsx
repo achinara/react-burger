@@ -1,9 +1,9 @@
 import { ReactNode } from 'react';
 import { useDrop } from 'react-dnd';
 import uuid4 from 'uuid4';
-import { useDispatch } from 'react-redux';
-import { incrementCount } from '../../../services/ingredients-slice';
-import { addIngredient } from '../../../services/constructor-items-slice';
+import { useDispatch } from '../../../hooks';
+import { incrementCount } from '../../../services/slices/ingredients-slice';
+import { addIngredient } from '../../../services/slices/constructor-items-slice';
 import { TIngredient } from '../../../utils/types/ingredients-types';
 import styles from '../burger-constructor.module.css';
 

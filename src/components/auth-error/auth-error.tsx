@@ -1,10 +1,10 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { resetUserError, selectUserError } from '../../services/user-slice';
+import { useDispatch, useSelector } from '../../hooks';
+import { resetUserError, selectUserError } from '../../services/slices/user-slice';
 import Alert from '../alert/alert';
 
 function AuthError() {
   const dispatch = useDispatch();
-  const error: string = useSelector(selectUserError);
+  const error = useSelector(selectUserError);
   const handleClick = () => dispatch(resetUserError());
 
   return  (

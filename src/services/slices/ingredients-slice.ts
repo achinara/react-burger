@@ -1,19 +1,26 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { API_FETCH_INGREDIENTS } from '../utils/constants/api';
-import { TYPE_BUN } from '../utils/constants/consts';
-import { TIngredient, TIngredientItem, TIngredientsData } from '../utils/types/ingredients-types';
-import { checkResponse } from '../utils/helpers/helpers';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { API_FETCH_INGREDIENTS } from '../../utils/constants/api';
+import { TYPE_BUN } from '../../utils/constants/consts';
+import { RootState } from '../store';
+import { TIngredient, TIngredientItem, TIngredientsData } from '../../utils/types/ingredients-types';
+import { checkResponse } from '../../utils/helpers/helpers';
 
-type State = {
+type TIngredientsById = {
+  [id: string]: TIngredient;
+};
+
+type TIngredientsState = {
   loading: boolean;
   failed: boolean;
   items: TIngredient[];
+  itemsByIds: TIngredientsById;
 };
 
-const initialState: State = {
+const initialState: TIngredientsState = {
   loading: false,
   failed: false,
   items: [],
+  itemsByIds: {},
 };
 
 export const fetchIngredients = createAsyncThunk(
@@ -29,7 +36,7 @@ const ingredientsSlice = createSlice({
   name: 'ingredients',
   initialState,
   reducers: {
-    incrementCount: (state, action) => {
+    incrementCount: (state, action: PayloadAction<{id: string, dragType: string}>) => {
       const { id, dragType } = action.payload;
       const isBun = dragType === TYPE_BUN;
       
@@ -43,7 +50,7 @@ const ingredientsSlice = createSlice({
           : item
       });
     },
-    decrementCount: (state, action) => {
+    decrementCount: (state, action: PayloadAction<string>) => {
       state.items = state.items.map((item) => item._id === action.payload
         ? {...item, count: Math.max(item.count - 1, 0)}
         : item
@@ -65,7 +72,12 @@ const ingredientsSlice = createSlice({
       .addCase(fetchIngredients.fulfilled, (state, action) => {
         state.loading = false;
         state.failed = false;
-        state.items = action.payload.map((item: TIngredientItem) => ({...item, count: 0}));
+        const items = action.payload.map((item: TIngredientItem) => ({...item, count: 0}));
+        state.items = items;
+        state.itemsByIds = items.reduce<TIngredientsById>((acc, item: TIngredient) => {
+          acc[item._id] = item;
+          return acc
+        }, {});
       })
       .addCase(fetchIngredients.rejected, (state) => {
         state.loading = false;
@@ -74,14 +86,16 @@ const ingredientsSlice = createSlice({
   },
 });
 
-// @ts-ignore
-const selectIngredients = store => store.ingredients;
-// @ts-ignore
-const selectIngredientItems = store => store.ingredients.items;
-// @ts-ignore
-const selectCurrentIngredient = (store, id?: string) => store.ingredients.items.find((item: TIngredient) => item._id === id);
+type TIngredientsActionCreators = typeof ingredientsSlice.actions;
+export type TIngredientsActions = ReturnType<TIngredientsActionCreators[keyof TIngredientsActionCreators]>;
 
-export { selectIngredients, selectIngredientItems, selectCurrentIngredient };
+const selectIngredients = (store: RootState) => store.ingredients;
+const selectIngredientItems = (store: RootState) => store.ingredients.items;
+const selectCurrentIngredient = (store: RootState, id?: string) =>
+  store.ingredients.items.find((item: TIngredient) => item._id === id);
+const selectIngredientItemByIds = (store: RootState) => store.ingredients.itemsByIds;
+
+export { selectIngredients, selectIngredientItems, selectCurrentIngredient, selectIngredientItemByIds };
 export const { incrementCount, decrementCount, clearIngredientsCount } = ingredientsSlice.actions;
 
 export default ingredientsSlice.reducer;

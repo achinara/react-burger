@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useRef, useState, JSX, UIEvent } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../hooks';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { TIngredient } from '../../utils/types/ingredients-types';
-import { selectIngredientItems } from '../../services/ingredients-slice';
+import { selectIngredientItems } from '../../services/slices/ingredients-slice';
 import Ingredient from './ingredient/ingredient';
 import Title from './title/title';
 import styles from './burger-ingredients.module.css';

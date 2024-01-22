@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../../hooks';
 import {  ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { selectBurgerConstructor } from '../../../services/constructor-items-slice';
+import { selectBurgerConstructor } from '../../../services/slices/constructor-items-slice';
 import styles from './full-item.module.css';
 
 const texts = {
@@ -20,7 +20,7 @@ function FullItem({ dragId, type, onRemove }: TFullItemProps) {
   const text = type ? texts[type] : '';
 
   const item = useMemo(() => {
-    const current = [...items, (bun || {})].filter((i) => i.dragId === dragId);
+    const current = [...items, bun].filter((i) => i?.dragId === dragId);
     return current[0];
   }, [bun, items, dragId]);
   

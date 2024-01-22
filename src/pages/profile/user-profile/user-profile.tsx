@@ -1,13 +1,14 @@
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { selectUser, updateUserData } from '../../../services/user-slice';
+import { shallowEqual } from 'react-redux';
+import { useDispatch, useSelector } from '../../../hooks';
+import { selectUser, updateUserData } from '../../../services/slices/user-slice';
 import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useForm } from '../../../hooks/useForm';
+import { useForm } from '../../../hooks';
 import { FormEvent, useCallback, useEffect, useState } from 'react';
 import { TUserRegisterBody } from '../../../utils/types/user-types';
 import AuthError from '../../../components/auth-error/auth-error';
 import styles from './user-profile.module.css';
 
-const initialState = (state: TUserRegisterBody) => ({
+const initialState = (state: TUserRegisterBody | null) => ({
   name: state?.name || '',
   email: state?.email || '',
   password: state?.password || '',
@@ -30,7 +31,6 @@ function UserProfile() {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // @ts-ignore
     dispatch(updateUserData(state));
   }
 

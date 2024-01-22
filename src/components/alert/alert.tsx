@@ -2,7 +2,7 @@ import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './alert.module.css';
 
 type TAlertProps = {
-  error: string | null;
+  error?: string | null;
   onClose: () => void;
 };
 
