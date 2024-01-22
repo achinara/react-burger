@@ -7,6 +7,7 @@ export type TUserEmail = {
 export type TUserData = {
   email: string;
   name: string;
+  password: string;
 };
 
 export type TUserAuthData = TRefreshTokenData & {

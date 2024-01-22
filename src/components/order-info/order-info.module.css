@@ -1,0 +1,47 @@
+.root {
+  width: 640px;
+}
+
+/*noinspection ALL*/
+.title, .heading {
+  composes: text text_type_main-medium from global;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+}
+
+.set {
+  max-height: 25vh;
+  overflow-y: auto;
+}
+
+/*noinspection ALL*/
+.number,
+.count {
+  composes: text text_type_digits-default from global;
+}
+
+.center {
+  text-align: center;
+}
+
+/*noinspection ALL*/
+.name {
+  flex: 1;
+  composes: text text_type_main-default from global;
+}
+
+/*noinspection ALL*/
+.date {
+  flex: 1;
+  color: var(--text-inactive-color);
+  composes: text text_type_main_small from global;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

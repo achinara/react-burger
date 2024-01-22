@@ -1,6 +1,6 @@
 import { FormEvent } from 'react';
 import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useForm } from '../../hooks/useForm';
+import { useForm } from '../../hooks';
 
 type TInputFields<T> = {
   type: 'password' | 'text' | 'email';

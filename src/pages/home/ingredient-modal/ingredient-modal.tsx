@@ -1,18 +1,12 @@
-import { useNavigate, useParams } from 'react-router-dom';
-import Modal from '../../../components/modal/modal';
+import { useParams } from 'react-router-dom';
+import WithModal from '../../../utils/hocs/with-modal';
 import IngredientDetails from '../../../components/ingredient-details/ingredient-details';
 
 function IngredientModal() {
-  const navigate = useNavigate();
   const { ingredientId } = useParams()
-  const resetCurrentIngredient = () => {
-    navigate(-1);
-  };
   return (
-    <Modal title="Детали ингредиента" onClose={resetCurrentIngredient}>
-      <IngredientDetails id={ingredientId} />
-    </Modal>
+    <IngredientDetails id={ingredientId} />
   );
 }
 
-export default IngredientModal;
+export default WithModal(IngredientModal);

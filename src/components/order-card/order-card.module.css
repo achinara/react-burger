@@ -1,0 +1,56 @@
+.root,
+.root:hover,
+.root:active,
+.root:visited {
+  color: inherit;
+  text-decoration: none;
+}
+
+.wrapper {
+  border-radius: 40px;
+  background: var(--background);
+  box-shadow: 0 0 1px 0 rgba(0,0,0, 0.4);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+/*noinspection ALL*/
+.date {
+  color: var(--text-inactive-color);
+  composes: text text_type_main_small from global;
+}
+
+/*noinspection ALL*/
+.orderNumber, .price {
+  composes: text text_type_digits-default from global;
+}
+
+/*noinspection ALL*/
+.title {
+  font-weight: normal;
+  composes: text text_type_main-medium from global;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.price {
+  gap: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.images {
+  display: flex;
+  padding-left: 16px;
+}
+
+.image {
+  margin-left: -16px;
+}

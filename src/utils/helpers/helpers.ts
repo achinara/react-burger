@@ -63,8 +63,10 @@ const fetchWithRefresh = async <T>(url: string, options: RequestInit): Promise<T
   }
 };
 
+const formatNumber = (num: number):string => new Intl.NumberFormat("ru-RU").format(num);
 
 export {
+  formatNumber,
   checkResponse,
   refreshToken,
   clearUserTokens,

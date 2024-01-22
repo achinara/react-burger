@@ -1,4 +1,9 @@
+.root {
+  background: var(--background);
+}
+
 .content {
+  position:  relative;
   width: 100%;
   max-width: 1280px;
   margin: auto;
@@ -11,6 +16,17 @@
   display: flex;
   list-style: none;
   padding: 0;
+}
+
+.logo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  width: 290px;
+  height: 50px;
 }
 
 .link {

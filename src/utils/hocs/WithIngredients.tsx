@@ -1,6 +1,6 @@
 import { ComponentType } from 'react';
-import { useSelector } from 'react-redux';
-import { selectIngredients } from '../../services/ingredients-slice';
+import { useSelector } from '../../hooks';
+import { selectIngredients } from '../../services/slices/ingredients-slice';
 import Spinner from '../../components/spinner/spinner';
 
 type TEmptyProps = {

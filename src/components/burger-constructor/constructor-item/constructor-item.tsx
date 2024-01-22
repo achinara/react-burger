@@ -1,10 +1,10 @@
 import { useMemo, useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../../hooks';
 import { Identifier } from 'dnd-core';
 import { TConstructorItem } from '../../../utils/types/ingredients-types';
-import { decrementCount } from '../../../services/ingredients-slice';
-import { removeIngredient, reorder, selectBurgerIngredients } from '../../../services/constructor-items-slice';
+import { decrementCount } from '../../../services/slices/ingredients-slice';
+import { removeIngredient, reorder, selectBurgerIngredients } from '../../../services/slices/constructor-items-slice';
 import FullItem from '../full-item/full-item';
 
 type TConstructorItemProps = {

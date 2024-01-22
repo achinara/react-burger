@@ -1,0 +1,25 @@
+
+/*noinspection ALL*/
+.totalNum {
+  composes: text text_type_digits-large from global;
+}
+
+/*noinspection ALL*/
+.title {
+  font-weight: normal;
+  composes: text text_type_main-medium from global;
+}
+
+.column {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+/*noinspection ALL*/
+.num {
+  composes: text_type_digits-default from global;
+}
+
+.statusDone {
+  color: #00cccc;
+}

@@ -1,14 +1,13 @@
-import { TIngredient } from './ingredients-types';
+export type TStatus = 'done' | 'created' | 'pending';
 
 export type TOrder = {
   _id: string;
   name: string;
-  status: string;
-  ingredients: TIngredient[];
+  status: TStatus;
+  ingredients: string[];
   createdAt: string;
   updatedAt: string;
   number: number;
-  price: number;
 };
 
 export type TOrderData = {

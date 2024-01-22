@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { resetPassword } from '../../services/user-slice';
+import { resetPassword } from '../../services/slices/user-slice';
 import { TPassResetBody } from '../../utils/types/user-types';
 import AuthForm from '../../components/auth-form/auth-form';
 import Hint from '../../components/hint/hint';

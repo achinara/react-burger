@@ -1,0 +1,10 @@
+.content {
+  display: grid;
+  flex: 1;
+  gap: 60px;
+  grid-template-columns: 1fr 1fr;
+}
+
+.orders {
+  display: flex;
+}

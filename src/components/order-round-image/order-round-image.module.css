@@ -1,0 +1,34 @@
+.root {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  background: linear-gradient(var(--background), var(--background)) padding-box,
+  linear-gradient(63.18deg, #801AB3 0%, #4C4CFF 100%) border-box;
+}
+
+.image {
+  position: absolute;
+  max-height: 90%;
+}
+
+/*noinspection ALL*/
+.text {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  color: #F2F2F3;
+  composes: text text_type_digits-default from global;
+  background: rgba(0,0,0, .7);
+  opacity: .8;
+}

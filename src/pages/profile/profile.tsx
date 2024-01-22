@@ -1,6 +1,6 @@
-import { NavLink, Outlet, useLocation, Location } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { logout as userLogout } from '../../services/user-slice';
+import { NavLink, Outlet, useLocation, Location, useParams } from 'react-router-dom';
+import { useDispatch } from '../../hooks';
+import { logout as userLogout } from '../../services/slices/user-slice';
 import styles from './profile.module.css';
 
 const PATH_PROFILE = '/profile';
@@ -12,12 +12,16 @@ const getItemClassName = (location: Location, path: string): string => {
 
 function Profile() {
   const location: Location = useLocation();
+  const params = useParams();
   const dispatch = useDispatch();
 
   const handleLogout = () => {
-    // @ts-ignore
     dispatch(userLogout());
   };
+
+  if (params?.orderId) {
+    return <Outlet />;
+  }
 
   return (
     <div className={styles.root}>

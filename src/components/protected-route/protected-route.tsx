@@ -1,8 +1,8 @@
 import { ReactElement} from 'react';
 import PropTypes from 'prop-types';
 import { Navigate, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { selectAuthChecked, selectUser } from '../../services/user-slice';
+import { useSelector } from '../../hooks';
+import { selectAuthChecked, selectUser } from '../../services/slices/user-slice';
 import Spinner from '../spinner/spinner';
 
 const RESET_PASS_PATH = '/reset-password';

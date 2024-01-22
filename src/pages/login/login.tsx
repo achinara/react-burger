@@ -1,15 +1,14 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../../hooks';
 import AuthForm from '../../components/auth-form/auth-form';
 import Hint from '../../components/hint/hint';
 import { TLoginBody } from '../../utils/types/user-types';
-import { login } from '../../services/user-slice';
+import { login } from '../../services/slices/user-slice';
 import AuthError from '../../components/auth-error/auth-error';
 import AuthContainer from '../../components/auth-container/auth-container';
 
 function Login() {
   const dispatch = useDispatch();
   const submit = (fields: TLoginBody) => {
-    // @ts-ignore
     dispatch(login(fields));
   };
   
