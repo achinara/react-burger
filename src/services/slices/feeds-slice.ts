@@ -12,7 +12,7 @@ type TFeedsState = {
   failed: string | null;
 };
 
-const initialState: TFeedsState = {
+export const initialState: TFeedsState = {
   feeds: [],
   total: 0,
   totalToday: 0,

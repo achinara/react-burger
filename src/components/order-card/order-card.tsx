@@ -25,6 +25,7 @@ function OrderCard({item, isVisibleOrderStatus = false}: TOrderCardProps) {
   const { price, images } = useMemo(() =>
     items.reduce<{price: number, images: string[]}>((acc, item) => {
       const ingredient = ingredientsByIds[item];
+      if (!ingredient) return acc;
       acc.price = acc.price + ingredient.price;
       acc.images.push(ingredient.image_mobile);
       return acc;

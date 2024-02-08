@@ -15,7 +15,7 @@ type OrderState = {
   } | null
 };
 
-const initialState: OrderState = {
+export const initialState: OrderState = {
   loading: false,
   failed: false,
   order: null,

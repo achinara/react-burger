@@ -10,7 +10,7 @@ type TUserOrdersState = {
   failed: string | null;
 };
 
-const initialState: TUserOrdersState = {
+export const initialState: TUserOrdersState = {
   orders: [],
   ordersByNumber: null,
   failed: null,

@@ -44,7 +44,7 @@ function OrderInfo({ isNumberCentered: alignCenter }: TOrderInfoProps) {
       <h2 className={`${styles.title} mb-3`}>{order.name}</h2>
       <OrderStatus status={order.status} />
       <h3 className={`${styles.heading} mt-15 mb-6`}>Состав:</h3>
-      <div className={`${styles.set} mb-10`}>
+      <div className={`${styles.set} custom-scroll mb-10`}>
         {items.map((item) => (
           <OrderIngredient key={item._id} {...item} />
         ))}

@@ -47,20 +47,10 @@
 
 .group {
   position: relative;
+  border: 1px dashed transparent;
 }
 
-.group::after {
-  content: '';
-  position: absolute;
-  top: -10px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  pointer-events: none;
-  z-index: 5;
-}
-
-.drag::after {
+.drag {
   border: 1px dashed rgb(0, 206, 206, 0.5);
 }
 

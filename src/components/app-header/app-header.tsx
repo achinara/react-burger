@@ -16,7 +16,7 @@ function AppHeader() {
               <NavLink
                 to="/"
                 className={
-                  ({ isActive }) => `${isActive ? styles.active : styles.link} pl-5 pr-5`
+                  ({ isActive }) => `${isActive ? styles.active : styles.link} pr-5`
                 }
               >
                 <BurgerIcon type="secondary"/>
@@ -41,7 +41,7 @@ function AppHeader() {
         </Link>
         <NavLink
           to="/profile"
-          className={({ isActive }) => `${isActive ? styles.active : styles.link} pl-5 pr-5`}
+          className={({ isActive }) => `${isActive ? styles.active : styles.link} pl-5`}
         >
           <ProfileIcon type="secondary"/>
           <span className="ml-2">{user?.name ? user.name : 'Личный кабинет'}</span>

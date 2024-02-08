@@ -6,7 +6,7 @@ type TModalOverlayProps = {
 
 function ModalOverlay({ onClose }: TModalOverlayProps) {
   return (
-    <div className={styles.root} onClick={onClose} />
+    <div className={styles.root} data-test="modal-overlay" onClick={onClose} />
   )
 }
 

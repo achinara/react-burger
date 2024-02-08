@@ -6,6 +6,7 @@ import { TConstructorItem } from '../../../utils/types/ingredients-types';
 import { decrementCount } from '../../../services/slices/ingredients-slice';
 import { removeIngredient, reorder, selectBurgerIngredients } from '../../../services/slices/constructor-items-slice';
 import FullItem from '../full-item/full-item';
+import styles from './constructor-item.module.css';
 
 type TConstructorItemProps = {
   dragId: string;
@@ -87,7 +88,7 @@ function ConstructorItem({ dragId, index }: TConstructorItemProps) {
   drag(drop(ref));
 
   return(
-    <div ref={ref} style={{opacity: isDragging ? 0 : 1}} data-handler-id={handlerId}>
+    <div ref={ref} className={`${styles.root} mb-4`} style={{opacity: isDragging ? 0 : 1}} data-handler-id={handlerId}>
       <FullItem dragId={dragId} onRemove={handleRemove} />
     </div>
   )
