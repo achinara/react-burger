@@ -25,11 +25,11 @@ function Modal({ title, onClose, children }: TModalProps): ReactPortal {
   }, [onClose])
 
   return createPortal(
-    <div className={styles.root}>
+    <div className={styles.root} data-test="modal" >
       <div className={styles.inner}>
         {title && <h2 className={`${styles.title} mb-4`}>{title}</h2>}
         {onClose && (
-          <Button htmlType="button" type="secondary" extraClass={styles.close} onClick={onClose}>
+          <Button data-test="close" htmlType="button" type="secondary" extraClass={styles.close} onClick={onClose}>
             <CloseIcon type="primary" />
           </Button>
         )}

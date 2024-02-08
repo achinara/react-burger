@@ -39,7 +39,11 @@ function ConstructorGroup({ dragType, children, className}: TConstructorGroupPro
   });
 
   return (
-    <div ref={ref} className={`${className || ''} ${styles.group} ${isOver ? styles.drag : ''}`}>
+    <div
+      ref={ref}
+      className={`${className || ''} ${styles.group} ${isOver ? styles.drag : ''}`}
+      data-test={dragType}
+    >
       {children}
     </div>
   )

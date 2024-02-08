@@ -24,6 +24,7 @@ const Ingredient = ({ item }: TIngredientProps) => {
       to={`ingredient/${item._id}`}
       className={`${styles.ingredient} pl-4 pr-2 mb-8`}
       state={{ backgroundLocation: location }}
+      data-test='ingredient'
     >
       <div ref={dragRef}>
         <img src={item.image} className="ml-4 mr-4" alt={item.name} />

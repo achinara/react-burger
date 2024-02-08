@@ -135,7 +135,7 @@ type UserState = {
   failed: string | null | undefined;
 };
 
-const initialState: UserState = {
+export const initialState: UserState = {
   isAuthChecked: false,
   user: null,
   failed: null,

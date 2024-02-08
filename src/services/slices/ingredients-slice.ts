@@ -16,7 +16,7 @@ type TIngredientsState = {
   itemsByIds: TIngredientsById;
 };
 
-const initialState: TIngredientsState = {
+export const initialState: TIngredientsState = {
   loading: false,
   failed: false,
   items: [],

@@ -56,7 +56,7 @@ function BurgerConstructor() {
     <div className={`${styles.root} ml-5`}>
       <div className={styles.content}>
         <div className={styles.list}>
-          <ConstructorGroup dragType="bun">
+          <ConstructorGroup className={"mb-4"} dragType="bun">
             {bun?.dragId
               ? <FullItem dragId={bun.dragId} type="top"  />
               : <EmptyItem type="top" />
@@ -69,7 +69,7 @@ function BurgerConstructor() {
                 ))
               : <EmptyItem />}
           </ConstructorGroup>
-          <ConstructorGroup dragType="bun">
+          <ConstructorGroup className={"mt-4"} dragType="bun">
             {bun?.dragId
               ? <FullItem dragId={bun.dragId} type="bottom"  />
               : <EmptyItem type="bottom" />

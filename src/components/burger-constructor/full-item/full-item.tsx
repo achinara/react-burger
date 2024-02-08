@@ -27,7 +27,7 @@ function FullItem({ dragId, type, onRemove }: TFullItemProps) {
   if (!item) return null;
 
   return (
-    <div className={`${styles.root} mb-4`}>
+    <div className={styles.root}>
       <div className={`${styles.drag} ${!type && styles.visible} mr-2`}>
         <DragIcon type="primary" />
       </div>

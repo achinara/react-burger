@@ -8,7 +8,7 @@ type TEmptyItemProps = {
 
 function EmptyItem({ type }: TEmptyItemProps) {
   return (
-    <div className={styles.root}>
+    <div className={`${styles.root} ${!type ? 'pt-4' : ''}`}>
       {!type ? texts[1] : texts[0] }
     </div>
   )
