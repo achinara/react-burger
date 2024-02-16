@@ -1,12 +1,13 @@
 describe('Checking the functionality of the Constructor', function() {
+  const testUrl = 'http://localhost:3000';
   const firstBun = 'Краторная булка N-300i';
   const ingredient = 'Соус Spicy-X';
   const modalName = 'Детали ингредиента';
-  const modalUrl = 'http://localhost:3000/ingredient/643d69a5c3f7b9001cfa093c';
+  const modalUrl = `${testUrl}/ingredient/643d69a5c3f7b9001cfa093c`;
 
   beforeEach(function() {
     cy.intercept('GET', 'api/ingredients', { fixture: 'data.json' });
-    cy.viewport(1280, 900).visit('http://localhost:3000');
+    cy.viewport(1280, 900).visit(testUrl);
   });
 
   it('shows the Constructor-Page by default', function() {
